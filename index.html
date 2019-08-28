@@ -1,37 +1,44 @@
 <html>
-  <head>
+
+<head>
     <!-- Load TensorFlow.js -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
     <!-- Load Posenet -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
- </head>
+</head>
 
-  <body>
-    
-  </body>
-  <!-- Place your code in the script tag below. You can also use an external .js file -->
-  <script>
+<body>
+
+</body>
+<!-- Place your code in the script tag below. You can also use an external .js file -->
+<script>
     var flipHorizontal = false;
+    var label = ",nose,leftEye,rightEye,leftEar,rightEar,leftShoulder,rightShoulder,leftElbow,rightElbow,leftWrist,rightWrist,leftHip,rightHip,leftKnee,rightKnee,leftAnkle,rightAnkle"
+    var nImgs = 2;
+    var arrPos = [];
+    var image;
+    var pontos;
 
-    var image = new Image();
-    
-    for(let i = 0; i<10; i++){
-        image.src = `${}`
-        arrPos = []
-        posenet.load().then(function(net) {
-        const pose = net.estimateSinglePose(imageElement, {
-            flipHorizontal: false
-        });
-        return pose;
-        }).then(function(pose){
-            const pontos = []
-            pose.keypoints.forEach((ponto)=>{
-                const {x,y} = ponto.position
-                pontos.push(x,y)
-        })
-        arrPos.push(pontos);
+    for (let i = 1; i <= nImgs; i++) {
+        image = new Image();
+        image.src = `img${i}.jpg`;
+        console.log(image.src);
+        posenet.load().then(function (net) {
+            const pose = net.estimateSinglePose(image, {
+                flipHorizontal: false
+            });
+            return pose;
+        }).then(function (pose) {
+            pontos = [];
+            pose.keypoints.forEach((ponto) => {
+                const { x, y } = ponto.position;
+                pontos.push(x, y);
+            })
+            arrPos.push([pontos]);
         })
 
     }
-  </script>
+    console.log(arrPos);
+</script>
+
 </html>
