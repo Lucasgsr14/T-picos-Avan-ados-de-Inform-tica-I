@@ -15,30 +15,28 @@
     var flipHorizontal = false;
     var label = ",nose,leftEye,rightEye,leftEar,rightEar,leftShoulder,rightShoulder,leftElbow,rightElbow,leftWrist,rightWrist,leftHip,rightHip,leftKnee,rightKnee,leftAnkle,rightAnkle"
     var nImgs = 2;
-    var arrPos = [];
+    var arrPos = [label.split(',')];
     var image;
     var pontos;
+    var promise = new Promise(function() {}); 
 
     for (let i = 1; i <= nImgs; i++) {
         image = new Image();
         image.src = `img${i}.jpg`;
-        console.log(image.src);
-        posenet.load().then(function (net) {
-            const pose = net.estimateSinglePose(image, {
+        posenet.load().then((net)=> {
+            return net.estimateSinglePose(image, {
                 flipHorizontal: false
             });
-            return pose;
-        }).then(function (pose) {
-            pontos = [];
+        }).then((pose)=> {
+            pontos = [0,0];
             pose.keypoints.forEach((ponto) => {
                 const { x, y } = ponto.position;
                 pontos.push(x, y);
             })
             arrPos.push([pontos]);
         })
-
     }
-    console.log(arrPos);
+    console.log(arrPos)
 </script>
 
 </html>
