@@ -1,44 +1,52 @@
 <html>
-
-<head>
-    <!-- Load TensorFlow.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-    <!-- Load Posenet -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
-</head>
-
-<body>
-    <div id="lugar"></div>
-</body>
-<!-- Place your code in the script tag below. You can also use an external .js file -->
-<script>
-    var flipHorizontal = false;
-    var label = ",nose_x, nose_y, leftEye_x, leftEye_y, rightEye_x, rightEye_y, leftEar_x, leftEar_y, rightEar_x, rightEar_y, leftShoulder_x, leftShoulder_y, rightShoulder_x, rightShoulder_y, leftElbow_x, leftElbow_y, rightElbow_x, rightElbow_y, leftWrist_x, leftWrist_y, rightWrist_x, rightWrist_y, leftHip_x, leftHip_y, rightHip_x, rightHip_y, leftKnee_x, leftKnee_y, rightKnee_x, rightKnee_y, leftAnkle_x, leftAnkle_y, rightAnkle_x, rightAnkle_y"
-    var nImgs = 2;
-    var arrPos = [label.split(',')];
-    var image;
-    var pontos;
-    var txt; 
-
-    for (let i = 1; i <= nImgs; i++) {
-        image = new Image();
-        image.src = `img${i}.jpg`;
-        posenet.load().then((net)=> {
-            return net.estimateSinglePose(image, {
-                flipHorizontal: false
+        <head>
+            <!-- Load TensorFlow.js -->
+            <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+            <!-- Load Posenet -->
+            <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+        </head>
+    
+        <body>
+            <div id="lugar"></div>
+        </body>
+        <!-- Place your code in the script tag below. You can also use an external .js file -->
+        <script>
+            var label =
+                ",nose_x, nose_y, leftEye_x, leftEye_y, rightEye_x, rightEye_y, leftEar_x, leftEar_y, rightEar_x, rightEar_y, leftShoulder_x, leftShoulder_y, rightShoulder_x, rightShoulder_y, leftElbow_x, leftElbow_y, rightElbow_x, rightElbow_y, leftWrist_x, leftWrist_y, rightWrist_x, rightWrist_y, leftHip_x, leftHip_y, rightHip_x, rightHip_y, leftKnee_x, leftKnee_y, rightKnee_x, rightKnee_y, leftAnkle_x, leftAnkle_y, rightAnkle_x, rightAnkle_y";
+            var nImgs = 5;
+            var images = [];
+            var txt = '';
+            var j = 0;
+            for (let i = 1; i <= nImgs; i++) {
+                const image = new Image();
+                image.src = `img${i}.jpg`;
+                images.push(image);
+            }
+    
+            async function estimate(imageElement) {
+                // load the posenet model from a checkpoint
+                const net = await posenet.load();
+    
+                const pose = await net.estimateSinglePose(imageElement, {
+                    flipHorizontal: false
+                });
+    
+                const pontos = [j++];
+                pose.keypoints.forEach(ponto => {
+                    const { x, y } = ponto.position;
+                    pontos.push(x, y);
+                });
+                return pontos;
+            }
+    
+            Promise.all(images.map(estimate)).then(result => {
+                const arrPos = [label.split(","), ...result];
+                console.log(arrPos);
+                for(let i=0; i<nImgs; i++){
+                    txt += `<p>${arrPos[i].toString()}</p>`;
+                }
+                document.getElementById("lugar").innerHTML = txt;
+                                
             });
-        }).then((pose)=> {
-            pontos = [0];
-            pose.keypoints.forEach((ponto) => {
-                const { x, y } = ponto.position;
-                pontos.push(x, y);
-            })
-            arrPos.push([pontos]);
-        })
-    }
-    txt = `<p>${arrPos.toString()}</p>`;
-    console.log(arrPos);
-    document.getElementById("lugar").innerHTML = txt;
-</script>
-
-</html>
+        </script>
+    </html>
