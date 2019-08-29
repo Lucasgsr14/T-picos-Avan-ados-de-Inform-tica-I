@@ -13,10 +13,11 @@
         <script>
             var label =
                 ",nose_x, nose_y, leftEye_x, leftEye_y, rightEye_x, rightEye_y, leftEar_x, leftEar_y, rightEar_x, rightEar_y, leftShoulder_x, leftShoulder_y, rightShoulder_x, rightShoulder_y, leftElbow_x, leftElbow_y, rightElbow_x, rightElbow_y, leftWrist_x, leftWrist_y, rightWrist_x, rightWrist_y, leftHip_x, leftHip_y, rightHip_x, rightHip_y, leftKnee_x, leftKnee_y, rightKnee_x, rightKnee_y, leftAnkle_x, leftAnkle_y, rightAnkle_x, rightAnkle_y, estado";
-            var nImgs = 5;
+            var nImgs = 16;
             var images = [];
-            var arrEstados = ["levantado", "sentado", "levantado", "sentado", "sentado"];
+            var arrEstados = ["sentado", "sentado", "sentado", "sentado", "sentado", "sentado", "levantado", "levantado", "levantado", "levantado", "levantado", "levantado", "levantado", "sentado", "sentado", "sentado"];
             var txt = '';
+            var arrPos=[];
             var j = 0;
             for (let i = 1; i <= nImgs; i++) {
                 const image = new Image(300, 450);
@@ -41,14 +42,19 @@
             }
     
             Promise.all(images.map(estimate)).then(result => {
-                const arrPos = [label.split(","), ...result];
-                console.log(arrPos);
+                const arrMed = [label.split(","), ...result];
+                for(let i = 1; i<=nImgs; i++){
+                    for(let h = 0; h<=nImgs; h++){
+                        if(arrMed[h][0]==i-1){
+                            arrPos.push(arrMed[h])
+                        }    
+                    }
+                } 
                 for(let i=0; i<=nImgs; i++){
                     if(i!=0) arrPos[i].push(arrEstados[i-1]);
                     txt += `${arrPos[i].toString()}</br>`;
                 }
-                document.getElementById("lugar").innerHTML = `<p>${txt}</p>`;
-                                
+                document.getElementById("lugar").innerHTML = `<p>${txt}</p>`;               
             });
         </script>
     </html>
