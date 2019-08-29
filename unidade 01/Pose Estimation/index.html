@@ -12,9 +12,10 @@
         <!-- Place your code in the script tag below. You can also use an external .js file -->
         <script>
             var label =
-                ",nose_x, nose_y, leftEye_x, leftEye_y, rightEye_x, rightEye_y, leftEar_x, leftEar_y, rightEar_x, rightEar_y, leftShoulder_x, leftShoulder_y, rightShoulder_x, rightShoulder_y, leftElbow_x, leftElbow_y, rightElbow_x, rightElbow_y, leftWrist_x, leftWrist_y, rightWrist_x, rightWrist_y, leftHip_x, leftHip_y, rightHip_x, rightHip_y, leftKnee_x, leftKnee_y, rightKnee_x, rightKnee_y, leftAnkle_x, leftAnkle_y, rightAnkle_x, rightAnkle_y";
+                ",nose_x, nose_y, leftEye_x, leftEye_y, rightEye_x, rightEye_y, leftEar_x, leftEar_y, rightEar_x, rightEar_y, leftShoulder_x, leftShoulder_y, rightShoulder_x, rightShoulder_y, leftElbow_x, leftElbow_y, rightElbow_x, rightElbow_y, leftWrist_x, leftWrist_y, rightWrist_x, rightWrist_y, leftHip_x, leftHip_y, rightHip_x, rightHip_y, leftKnee_x, leftKnee_y, rightKnee_x, rightKnee_y, leftAnkle_x, leftAnkle_y, rightAnkle_x, rightAnkle_y, estado";
             var nImgs = 5;
             var images = [];
+            var arrId = ["levantado", "sentado", "levantado", "sentado", "sentado"];
             var txt = '';
             var j = 0;
             for (let i = 1; i <= nImgs; i++) {
@@ -43,9 +44,10 @@
                 const arrPos = [label.split(","), ...result];
                 console.log(arrPos);
                 for(let i=0; i<nImgs; i++){
-                    txt += `<p>${arrPos[i].toString()}</p>`;
+                    arrPos[i+1].push(arrId[i]);
+                    txt += `${arrPos[i].toString()}</br>`;
                 }
-                document.getElementById("lugar").innerHTML = txt;
+                document.getElementById("lugar").innerHTML = `<p>${txt}</p>`;
                                 
             });
         </script>
