@@ -43,8 +43,8 @@
             Promise.all(images.map(estimate)).then(result => {
                 const arrPos = [label.split(","), ...result];
                 console.log(arrPos);
-                for(let i=0; i<nImgs; i++){
-                    arrPos[i+1].push(arrId[i]);
+                for(let i=0; i<=nImgs; i++){
+                    if(i!=0) arrPos[i].push(arrId[i-1]);
                     txt += `${arrPos[i].toString()}</br>`;
                 }
                 document.getElementById("lugar").innerHTML = `<p>${txt}</p>`;
