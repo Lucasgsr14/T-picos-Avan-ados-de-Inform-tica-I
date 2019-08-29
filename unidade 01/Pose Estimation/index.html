@@ -15,7 +15,7 @@
                 ",nose_x, nose_y, leftEye_x, leftEye_y, rightEye_x, rightEye_y, leftEar_x, leftEar_y, rightEar_x, rightEar_y, leftShoulder_x, leftShoulder_y, rightShoulder_x, rightShoulder_y, leftElbow_x, leftElbow_y, rightElbow_x, rightElbow_y, leftWrist_x, leftWrist_y, rightWrist_x, rightWrist_y, leftHip_x, leftHip_y, rightHip_x, rightHip_y, leftKnee_x, leftKnee_y, rightKnee_x, rightKnee_y, leftAnkle_x, leftAnkle_y, rightAnkle_x, rightAnkle_y, estado";
             var nImgs = 5;
             var images = [];
-            var arrId = ["levantado", "sentado", "levantado", "sentado", "sentado"];
+            var arrEstados = ["levantado", "sentado", "levantado", "sentado", "sentado"];
             var txt = '';
             var j = 0;
             for (let i = 1; i <= nImgs; i++) {
@@ -44,7 +44,7 @@
                 const arrPos = [label.split(","), ...result];
                 console.log(arrPos);
                 for(let i=0; i<=nImgs; i++){
-                    if(i!=0) arrPos[i].push(arrId[i-1]);
+                    if(i!=0) arrPos[i].push(arrEstados[i-1]);
                     txt += `${arrPos[i].toString()}</br>`;
                 }
                 document.getElementById("lugar").innerHTML = `<p>${txt}</p>`;
