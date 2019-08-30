@@ -15,10 +15,13 @@
                 ",nose_x, nose_y, leftEye_x, leftEye_y, rightEye_x, rightEye_y, leftEar_x, leftEar_y, rightEar_x, rightEar_y, leftShoulder_x, leftShoulder_y, rightShoulder_x, rightShoulder_y, leftElbow_x, leftElbow_y, rightElbow_x, rightElbow_y, leftWrist_x, leftWrist_y, rightWrist_x, rightWrist_y, leftHip_x, leftHip_y, rightHip_x, rightHip_y, leftKnee_x, leftKnee_y, rightKnee_x, rightKnee_y, leftAnkle_x, leftAnkle_y, rightAnkle_x, rightAnkle_y, estado";
             var nImgs = 16;
             var images = [];
-            var arrEstados = ["sentado", "sentado", "sentado", "sentado", "sentado", "sentado", "levantado", "levantado", "levantado", "levantado", "levantado", "levantado", "levantado", "sentado", "sentado", "sentado"];
+            var arrEstados = [];
             var txt = '';
             var arrPos=[];
             var j = 0;
+            for(let i = 0; i<nImgs; i++){
+                i<49?arrEstados.push("levantado"):arrEstados.push("sentado");
+            }
             for (let i = 1; i <= nImgs; i++) {
                 const image = new Image(300, 450);
                 image.src = `Imagens/img${i}.jpg`;
